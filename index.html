@@ -17,9 +17,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 860px)" fetchpriority="high">
 <link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 861px)" fetchpriority="high">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- шрифты лежат на сайте, а не на Google Fonts: на мобильном интернете Google отдаёт их с задержкой, и текст перескакивает -->
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/unbounded-cyrillic.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-cyrillic.woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect x=%274%27 y=%274%27 width=%2724%27 height=%2724%27 rx=%2710%27 fill=%27%232c776d%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%275%27 fill=%27%23f5f8f7%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="vibe.css">
 <script type="application/ld+json">
@@ -32,7 +33,7 @@
     --v-ink: #15211f; --v-ink-soft: #51605d;            /* 6,2:1 на холсте */
     --v-accent: #2c776d; --v-accent-ink: #ffffff;       /* кнопка 5,3:1 */
     --v-accent-deep: #186258;                           /* мелкий акцентный текст: цены, номера вопросов, 6,8:1 */
-    --v-font-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --v-font-display: "Unbounded", system-ui, "Segoe UI", Roboto, Arial, sans-serif;
     --v-font-text: "Manrope", "Segoe UI", system-ui, sans-serif;
     --v-display-weight: 500;
     --v-track-tight: -0.035em;
@@ -46,6 +47,11 @@
     --v-section: clamp(3.5rem, 8vw, 7rem);
   }
   html, body { margin: 0; background: #f5f8f7; }
+  /* телефон не должен сам увеличивать текст (iOS при повороте, «крупный шрифт» в браузере) */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  /* длинные слова в широком Unbounded переносим, а не выталкиваем за край экрана */
+  .v-page :is(h1, h2, h3) { overflow-wrap: break-word; hyphens: auto; }
+  .v-page .v-k { max-width: 100%; }
   .v-page .v-lede { font-weight: 400; }
   .v-page .v-label { font-weight: 600; }
   .v-page .v-btn { font-size: var(--v-t-sm); }
@@ -351,6 +357,23 @@
     .close__tel { font-size: var(--v-t-lg); }
     .foot { grid-template-columns: 1fr; gap: var(--v-2); font-size: var(--v-t-sm); padding: var(--v-5) var(--v-gutter) calc(var(--v-5) + env(safe-area-inset-bottom)); }
     .foot__more { display: none; }
+  }
+
+  /* узкие телефоны и «крупный текст» в настройках телефона: шапка и заголовки не шире экрана.
+     Стоит последним, чтобы перебить мобильные правила выше. */
+  @media (max-width: 480px) {
+    .bar { gap: var(--v-2); }
+    .bar__mark { font-size: min(1.1rem, 4.4vw); gap: .4em; flex: none; }
+    .bar .v-btn { padding: 0 .85em; font-size: min(.9375rem, 3.9vw); flex: none; }
+    .v-page .hero__copy .v-display { font-size: min(2.4rem, 8.2vw); }
+    .v-page .v-display--lg, .v-page .hero__five .v-display { font-size: min(1.9rem, 7.4vw); }
+    .v-page .v-display--md { font-size: min(1.7rem, 7vw); }
+    .v-page .close__inner .v-display--xl { font-size: min(2rem, 8.4vw); }
+    .v-page .usl__list h3 { font-size: min(1.3rem, 5.4vw); }
+    .v-page :is(.rows, .steps) h3, .v-page .clean__copy h3 { font-size: min(1.05rem, 4.6vw); }
+    .v-page .price__item h3 { font-size: min(1.25rem, 5.4vw); }
+    .v-page .rv__num, .v-page .reviews__item--big .rv__num { font-size: min(2.6rem, 11vw); }
+    .v-page .close__tel { font-size: min(1.4rem, 6.2vw); }
   }
 </style>
 </head>
