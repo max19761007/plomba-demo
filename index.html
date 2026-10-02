@@ -375,6 +375,15 @@
     .v-page .rv__num, .v-page .reviews__item--big .rv__num { font-size: min(2.6rem, 11vw); }
     .v-page .close__tel { font-size: min(1.4rem, 6.2vw); }
   }
+
+  /* старые браузеры (Safari до iOS 15.4, Chrome до 108, встроенные браузеры приложений) не знают svh:
+     без этого блока закреплённые сцены схлопываются в ноль и всё ложится в один экран */
+  @supports not (height: 100svh) {
+    .v-page [data-v-act="pin"], .v-page [data-v-act="pan"] { height: calc(var(--v-span, 2) * 100vh); }
+    .v-page [data-v-act="pin"] [data-v-stage], .v-page [data-v-act="pan"] [data-v-stage] { height: 100vh; }
+    .v-page .chart { max-height: 38vh; }
+    .v-page .chart__svg { max-height: 33vh; }
+  }
 </style>
 </head>
 <body>
