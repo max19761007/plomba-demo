@@ -376,6 +376,25 @@
     .v-page .close__tel { font-size: min(1.4rem, 6.2vw); }
   }
 
+  /* «Уменьшить движение» / «Убрать анимацию» (на Android часто включается с энергосбережением) и печать:
+     движок показывает все реплики сразу, поэтому сменяющиеся в одном экране тексты раскладываем лентой */
+  @media (prefers-reduced-motion: reduce), print {
+    .v-page .hero__five { display: none; }
+    .v-page #ceny { height: auto; }
+    .v-page #ceny [data-v-stage] { position: static; height: auto; overflow: visible; }
+    .v-page .price { height: auto; align-items: start; padding-block: 5rem var(--v-section); }
+    .v-page .price__stack { min-height: 0; display: grid; gap: var(--v-6); }
+    .v-page .price__item { position: static; }
+    .v-page .price__item p { display: block; }
+    .v-page .chart { max-height: none; }
+    .v-page .chart .ring { display: none; }
+  }
+  @media print {
+    .bar, [data-v-progress] { position: static; }
+    .v-page [data-v-act="pin"] { height: auto; }
+    .v-page [data-v-act="pin"] [data-v-stage] { position: relative; height: 100vh; }
+  }
+
   /* старые браузеры (Safari до iOS 15.4, Chrome до 108, встроенные браузеры приложений) не знают svh:
      без этого блока закреплённые сцены схлопываются в ноль и всё ложится в один экран */
   @supports not (height: 100svh) {
